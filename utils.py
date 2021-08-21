@@ -611,9 +611,3 @@ def save_examples(img, seg, gt, PID, fname, example_dir):
         
         anImage = cv2.resize(anImage, (anImage.shape[0]*2, anImage.shape[1]*2), interpolation = cv2.INTER_LANCZOS4)
         cv2.imwrite(os.path.join(example_dir, f'{PID}_{fname}.png'), anImage)
-        
-"""
-def bce_fbeta_loss(y_true, y_pred):
-    loss = losses.binary_crossentropy(y_true, y_pred) + fbeta_loss(y_true, y_pred)
-    return loss
-"""
