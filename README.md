@@ -9,12 +9,21 @@ Authors: Anush Agarwal, Dr. Nicola Schieda, Dr. Mohamed Elfaal, Dr. Eranga Ukwat
 **Results:** The developed algorithm reported a Dice similarity coefficient (DSC) of 91.20 ± 5.41% (mean ± standard deviation) for segmentation accuracy of kidney boundary delineation from 118 volumes consisting of 25,025 slices. Our proposed ensemble model for renal mass detection yielded a recall and precision of 86.2% and 83.3% on the entire CE-MRI dataset, respectively.\
 **Conclusion:** We describe a deep learning based method for fully automated renal mass detection using CE-MR images which has not been studied previously. The results demonstrate the usefulness of our suggested technique for this application, which is clinically important as renal mass localization is a pre-step for fully-automated diagnosis of renal mass subtype which may be more accurate on MRI compared to CT.\
 
+## Research Presentation Video
+
+[![Renal Mass Detection](https://img.youtube.com/vi/yQcqOi6vQ84/0.jpg)](https://www.youtube.com/watch?v=yQcqOi6vQ84 "Renal Mass Detection")
+
 ## File Organization/Features
 
 * preprocessing
 	* convert DICOM/NIfTI medical images to numpy arrays
 	* apply voxel size normalization, intensity normalization, histogram equalization
 	* standardize image size for machine learning model
+	* Create_KidneySeg.py
+		* dataset for binary kidney segmentation task
+	* Create_LesionSeg.py
+		* dataset for binary renal mass segmentation task
+		* uses output from kidney segmentation model to localize region of interest
 * data_generator.py
 	* split data into train/val/test or k-fold cross validation
 	* generate images at run-time for machine learning model
@@ -56,4 +65,4 @@ Authors: Anush Agarwal, Dr. Nicola Schieda, Dr. Mohamed Elfaal, Dr. Eranga Ukwat
 * predict.py
 	* initialize prediction
 	* load weights and test set
-	* select optiions for post-processing, visualization
+	* select options for post-processing, visualization
