@@ -1,12 +1,12 @@
 #!/bin/bash
 
-#SBATCH --job-name=GTkid_2Chan_onlyHealthy
+#SBATCH --job-name=ensemble_RMdetection_5fold
 #SBATCH --array=0-4
 #SBATCH --time=0-05:59:00
 ##SBATCH --gres=gpu:p100:1
 #SBATCH --output=%x--%A_%a.out
 #SBATCH --mem=20GB
-#SBATCH --account=def-erangauk-ab
+#SBATCH --account=*******
 
 echo '******************Program Start*****************'
 echo "Start time ="
@@ -41,7 +41,6 @@ pip install ~/projects/def-erangauk-ab/agarwala/ensemble/pynrrd-0.4.2-py2.py3-no
 
 ## Prepare data
 mkdir $SLURM_TMPDIR/data
-#tar xf ~/projects/def-erangauk-ab/agarwala/ensemble/kid_seg/predKid_TwoChan_healthySeg_$SLURM_ARRAY_TASK_ID.tar -C $SLURM_TMPDIR/data
 tar xf ~/projects/def-erangauk-ab/agarwala/ensemble/ngmri_healthy_WITH_Bkgr.tar -C $SLURM_TMPDIR/data
 tar xf ~/projects/def-erangauk-ab/agarwala/processed_data/dicom_dataset/GT_mri_kidney_segs.tar -C $SLURM_TMPDIR/data
 tar xf ~/projects/def-erangauk-ab/agarwala/medphys/ensemble_tests/lesion_seg/GTkid_lesionSeg_results_$SLURM_ARRAY_TASK_ID.tar -C $SLURM_TMPDIR/data
@@ -50,7 +49,8 @@ echo '**************************************************************************
 echo "Data Extraction complete @"
 date
 
-##python train.py $SLURM_ARRAY_TASK_ID
+## Note: array task ID tells the instance which fold it is working on
+python train.py $SLURM_ARRAY_TASK_ID
 
 echo '************************************************************************************'
 echo "Finished Training @"
@@ -58,15 +58,16 @@ date
 
 mkdir $SLURM_TMPDIR/results
 mkdir $SLURM_TMPDIR/examples
-python predict_predkid.py $SLURM_ARRAY_TASK_ID
+python predict.py $SLURM_ARRAY_TASK_ID
 
+## Transfer results and visualizations from the working node to the project node for viewing
 cd $SLURM_TMPDIR
 tar -cf $SLURM_TMPDIR/GTkid_2Chan_onlyHealthy_examples_$SLURM_ARRAY_TASK_ID.tar examples
 cp $SLURM_TMPDIR/GTkid_2Chan_onlyHealthy_examples_$SLURM_ARRAY_TASK_ID.tar ~/projects/def-erangauk-ab/agarwala/medphys/ensemble_tests
 
-##cd $SLURM_TMPDIR
-##tar -cf $SLURM_TMPDIR/CRITICAL_verif_results_$SLURM_ARRAY_TASK_ID.tar results
-##cp $SLURM_TMPDIR/CRITICAL_verif_results_$SLURM_ARRAY_TASK_ID.tar ~/projects/def-erangauk-ab/agarwala/ensemble/ensemble_seg
+cd $SLURM_TMPDIR
+tar -cf $SLURM_TMPDIR/CRITICAL_verif_results_$SLURM_ARRAY_TASK_ID.tar results
+cp $SLURM_TMPDIR/CRITICAL_verif_results_$SLURM_ARRAY_TASK_ID.tar ~/projects/def-erangauk-ab/agarwala/ensemble/ensemble_seg
 
 echo '************************************************************************************'
 echo "Time at exit @"

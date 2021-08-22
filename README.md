@@ -7,7 +7,7 @@ Authors: Anush Agarwal, Dr. Nicola Schieda, Dr. Mohamed Elfaal, Dr. Eranga Ukwat
 **Purpose:** Accurate detection of renal masses is a fundamental first step for attempted automated classification of benign and malignant or indolent and aggressive renal tumors in the future. MRI may outperform CT for differentiation of renal mass subtype due to improved tissue characterization, but is less well studied compared to CT. The objective of this study is to autonomously detect renal masses on contrast-enhanced magnetic resonance images (CE-MRI).\
 **Method:** In this paper, we describe a novel, fully automated methodology for accurate detection and localization of renal masses on CE-MRI. We first determine the boundaries of the kidneys using a U-Net convolutional neural network. The kidney boundary is used as a localizer to identify a region of interest to search for renal masses. We then utilized a mixture-of-experts (MoE) ensemble model based on the U-Net architecture to identify renal masses. Our dataset is comprised of CE-MRI scans of 118 patients with benign and malignant solid kidney tumors including: renal cell carcinoma (clear cell, papillary, chromophobe), oncocytomas, and fat poor renal angiomyolipoma (fpAML). We trained and evaluated the proposed model on the entire CE-MRI dataset using 5-fold cross validation.\
 **Results:** The developed algorithm reported a Dice similarity coefficient (DSC) of 91.20 ± 5.41% (mean ± standard deviation) for segmentation accuracy of kidney boundary delineation from 118 volumes consisting of 25,025 slices. Our proposed ensemble model for renal mass detection yielded a recall and precision of 86.2% and 83.3% on the entire CE-MRI dataset, respectively.\
-**Conclusion:** We describe a deep learning based method for fully automated renal mass detection using CE-MR images which has not been studied previously. The results demonstrate the usefulness of our suggested technique for this application, which is clinically important as renal mass localization is a pre-step for fully-automated diagnosis of renal mass subtype which may be more accurate on MRI compared to CT.\
+**Conclusion:** We describe a deep learning based method for fully automated renal mass detection using CE-MR images which has not been studied previously. The results demonstrate the usefulness of our suggested technique for this application, which is clinically important as renal mass localization is a pre-step for fully-automated diagnosis of renal mass subtype which may be more accurate on MRI compared to CT.
 
 ## Research Presentation Video
 
@@ -15,6 +15,9 @@ Authors: Anush Agarwal, Dr. Nicola Schieda, Dr. Mohamed Elfaal, Dr. Eranga Ukwat
 
 ## File Organization/Features
 
+* submit_kfoldtrain.sh
+	* example batch job submission to Compute Canada cluster using SLURM
+	* allocates resources and runs 5-fold cross validation in parallel using remote resources
 * preprocessing
 	* convert DICOM/NIfTI medical images to numpy arrays
 	* apply voxel size normalization, intensity normalization, histogram equalization
